@@ -13,6 +13,14 @@ function handleCollisions(game) {
             if (bat.active && checkCollision(player.getBounds(), bat.getBounds())) {
                 // Player collected a bat
                 player.addScore(1);
+
+                // Create fireworks effect at bat's position
+                const firework = new Firework(
+                    bat.x + bat.width / 2,
+                    bat.y + bat.height / 2
+                );
+                game.fireworks.push(firework);
+
                 bat.active = false;
                 // Respawn bat after a short delay
                 setTimeout(() => {
@@ -38,8 +46,10 @@ function handleCollisions(game) {
                     player.addScore(-1);
                     game.recentCollisions[collisionKey] = now;
 
-                    // Visual feedback - flash the player
+                    // Visual feedback - flash the player and jiggle pumpkin
                     player.isHit = true;
+                    pumpkin.jiggle();
+
                     setTimeout(() => {
                         player.isHit = false;
                     }, 200);

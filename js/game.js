@@ -17,8 +17,9 @@ class Game {
         this.bats = [];
         this.pumpkins = [];
 
-        // Blizzard effect
+        // Effects
         this.snowflakes = [];
+        this.fireworks = [];
 
         // Collision tracking
         this.recentCollisions = {};
@@ -220,6 +221,20 @@ class Game {
         this.bats.forEach(bat => {
             bat.update(deltaTime, this.canvas.width, this.canvas.height);
         });
+
+        // Update pumpkins (for jiggle animation)
+        this.pumpkins.forEach(pumpkin => {
+            pumpkin.update(deltaTime);
+        });
+
+        // Update fireworks
+        this.fireworks.forEach((firework, index) => {
+            firework.update(deltaTime);
+            // Remove inactive fireworks
+            if (!firework.active) {
+                this.fireworks.splice(index, 1);
+            }
+        });
     }
 
     render() {
@@ -233,6 +248,11 @@ class Game {
             bat.render(this.ctx);
         });
 
+        // Render fireworks
+        this.fireworks.forEach(firework => {
+            firework.render(this.ctx);
+        });
+
         // Render players
         this.players.forEach(player => {
             // Flash effect when hit
@@ -244,8 +264,28 @@ class Game {
 
     renderBackground() {
         if (this.images.background && this.images.background.complete) {
-            // Draw the SVG background scaled to fit the canvas
-            this.ctx.drawImage(this.images.background, 0, 0, this.canvas.width, this.canvas.height);
+            // Draw the SVG background with "cover" behavior (fills entire canvas, may crop)
+            const img = this.images.background;
+            const canvasAspect = this.canvas.width / this.canvas.height;
+            const imgAspect = img.width / img.height;
+
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (canvasAspect > imgAspect) {
+                // Canvas is wider than image - fit to width
+                drawWidth = this.canvas.width;
+                drawHeight = this.canvas.width / imgAspect;
+                offsetX = 0;
+                offsetY = (this.canvas.height - drawHeight) / 2;
+            } else {
+                // Canvas is taller than image - fit to height
+                drawWidth = this.canvas.height * imgAspect;
+                drawHeight = this.canvas.height;
+                offsetX = (this.canvas.width - drawWidth) / 2;
+                offsetY = 0;
+            }
+
+            this.ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
         } else {
             // Fallback: Dark forest background
             const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
