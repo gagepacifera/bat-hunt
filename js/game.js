@@ -38,12 +38,18 @@ class Game {
     }
 
     loadImages() {
+        // Get the base path (works for both local and GitHub Pages)
+        const basePath = window.location.pathname.endsWith('.html')
+            ? window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))
+            : window.location.pathname;
+        const base = basePath.endsWith('/') ? basePath : basePath + '/';
+
         const imagePaths = {
-            witchPurple: 'assets/images/svg/witch-purple.svg',
-            witchPink: 'assets/images/svg/witch-pink.svg',
-            bat: 'assets/images/svg/bat.svg',
-            pumpkin: 'assets/images/svg/pumpkin.svg',
-            background: 'assets/images/svg/bat-hunt-bg.svg'
+            witchPurple: `${base}assets/images/svg/witch-purple.svg`,
+            witchPink: `${base}assets/images/svg/witch-pink.svg`,
+            bat: `${base}assets/images/svg/bat.svg`,
+            pumpkin: `${base}assets/images/svg/pumpkin.svg`,
+            background: `${base}assets/images/svg/bat-hunt-bg.svg`
         };
 
         let loadedCount = 0;
