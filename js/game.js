@@ -45,11 +45,11 @@ class Game {
         const base = basePath.endsWith('/') ? basePath : basePath + '/';
 
         const imagePaths = {
-            witchPurple: `${base}assets/images/svg/witch-purple.svg`,
-            witchPink: `${base}assets/images/svg/witch-pink.svg`,
-            bat: `${base}assets/images/svg/bat.svg`,
-            pumpkin: `${base}assets/images/svg/pumpkin.svg`,
-            background: `${base}assets/images/svg/bat-hunt-bg.svg`
+            witchPurple: `${base}assets/images/SVG/witch-purple.svg`,
+            witchPink: `${base}assets/images/SVG/witch-pink.svg`,
+            bat: `${base}assets/images/SVG/bat.svg`,
+            pumpkin: `${base}assets/images/SVG/pumpkin.svg`,
+            background: `${base}assets/images/SVG/bat-hunt-bg.svg`
         };
 
         let loadedCount = 0;
