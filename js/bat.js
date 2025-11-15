@@ -1,9 +1,10 @@
 class Bat {
-    constructor(x, y) {
+    constructor(x, y, image) {
         this.x = x;
         this.y = y;
-        this.width = 30;
-        this.height = 30;
+        this.image = image;
+        this.width = 40;
+        this.height = 40;
         this.active = true;
 
         // Random movement
@@ -38,28 +39,31 @@ class Bat {
 
         ctx.save();
 
-        // Simple bat representation (placeholder)
-        // Wings
-        ctx.fillStyle = '#2d1b3d';
-        ctx.beginPath();
-        ctx.ellipse(this.x + 5, this.y + this.height / 2, 8, 12, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.ellipse(this.x + this.width - 5, this.y + this.height / 2, 8, 12, 0, 0, Math.PI * 2);
-        ctx.fill();
+        if (this.image && this.image.complete) {
+            // Draw bat SVG image
+            // Flip based on direction for visual variety
+            if (this.velocityX < 0) {
+                ctx.translate(this.x + this.width, this.y);
+                ctx.scale(-1, 1);
+                ctx.drawImage(this.image, 0, 0, this.width, this.height);
+            } else {
+                ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+            }
+        } else {
+            // Fallback: simple bat representation
+            ctx.fillStyle = '#2d1b3d';
+            ctx.beginPath();
+            ctx.ellipse(this.x + 5, this.y + this.height / 2, 8, 12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(this.x + this.width - 5, this.y + this.height / 2, 8, 12, 0, 0, Math.PI * 2);
+            ctx.fill();
 
-        // Body
-        ctx.fillStyle = '#1a0a2e';
-        ctx.beginPath();
-        ctx.ellipse(this.x + this.width / 2, this.y + this.height / 2, 10, 8, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Eyes
-        ctx.fillStyle = '#ff0000';
-        ctx.beginPath();
-        ctx.arc(this.x + this.width / 2 - 3, this.y + this.height / 2 - 2, 2, 0, Math.PI * 2);
-        ctx.arc(this.x + this.width / 2 + 3, this.y + this.height / 2 - 2, 2, 0, Math.PI * 2);
-        ctx.fill();
+            ctx.fillStyle = '#1a0a2e';
+            ctx.beginPath();
+            ctx.ellipse(this.x + this.width / 2, this.y + this.height / 2, 10, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
 
         ctx.restore();
     }

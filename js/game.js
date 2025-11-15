@@ -23,17 +23,62 @@ class Game {
         // Collision tracking
         this.recentCollisions = {};
 
-        this.init();
+        // Image assets
+        this.images = {
+            witchPurple: null,
+            witchPink: null,
+            bat: null,
+            pumpkin: null,
+            background: null
+        };
+
+        this.imagesLoaded = false;
+        this.loadImages();
+    }
+
+    loadImages() {
+        const imagePaths = {
+            witchPurple: 'assets/images/svg/witch-purple.svg',
+            witchPink: 'assets/images/svg/witch-pink.svg',
+            bat: 'assets/images/svg/bat.svg',
+            pumpkin: 'assets/images/svg/pumpkin.svg',
+            background: 'assets/images/svg/bat-hunt-bg.svg'
+        };
+
+        let loadedCount = 0;
+        const totalImages = Object.keys(imagePaths).length;
+
+        Object.keys(imagePaths).forEach(key => {
+            const img = new Image();
+            img.onload = () => {
+                loadedCount++;
+                if (loadedCount === totalImages) {
+                    this.imagesLoaded = true;
+                    this.init();
+                }
+            };
+            img.onerror = () => {
+                console.error(`Failed to load image: ${imagePaths[key]}`);
+                loadedCount++;
+                if (loadedCount === totalImages) {
+                    this.imagesLoaded = true;
+                    this.init();
+                }
+            };
+            img.src = imagePaths[key];
+            this.images[key] = img;
+        });
     }
 
     init() {
-        // Create players
+        // Create players with image references
         this.players.push(new Player(
             1,
             100,
             this.canvas.height / 2,
             '#9b59b6',
-            { up: 'w', down: 's', left: 'a', right: 'd' }
+            { up: 'w', down: 's', left: 'a', right: 'd' },
+            this.images.witchPurple
         ));
 
         this.players.push(new Player(
@@ -41,21 +86,22 @@ class Game {
             this.canvas.width - 150,
             this.canvas.height / 2,
             '#e74c3c',
-            { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' }
+            { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' },
+            this.images.witchPink
         ));
 
-        // Create bats
+        // Create bats with image reference
         for (let i = 0; i < 8; i++) {
             const x = Math.random() * (this.canvas.width - 100) + 50;
             const y = Math.random() * (this.canvas.height - 100) + 50;
-            this.bats.push(new Bat(x, y));
+            this.bats.push(new Bat(x, y, this.images.bat));
         }
 
-        // Create pumpkins
+        // Create pumpkins with image reference
         for (let i = 0; i < 12; i++) {
             const x = Math.random() * (this.canvas.width - 100) + 50;
             const y = Math.random() * (this.canvas.height - 100) + 50;
-            this.pumpkins.push(new Pumpkin(x, y));
+            this.pumpkins.push(new Pumpkin(x, y, this.images.pumpkin));
         }
 
         // Create snowflakes for blizzard effect
@@ -197,30 +243,17 @@ class Game {
     }
 
     renderBackground() {
-        // Dark forest background
-        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, '#0a0520');
-        gradient.addColorStop(0.5, '#1a0a2e');
-        gradient.addColorStop(1, '#0f051d');
-        this.ctx.fillStyle = gradient;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Simple tree silhouettes
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-        for (let i = 0; i < 15; i++) {
-            const x = (i * 80) + (i % 2) * 40;
-            const height = 150 + Math.random() * 100;
-
-            // Tree trunk
-            this.ctx.fillRect(x, this.canvas.height - height, 20, height);
-
-            // Tree top (triangle)
-            this.ctx.beginPath();
-            this.ctx.moveTo(x + 10, this.canvas.height - height);
-            this.ctx.lineTo(x - 20, this.canvas.height - height + 80);
-            this.ctx.lineTo(x + 40, this.canvas.height - height + 80);
-            this.ctx.closePath();
-            this.ctx.fill();
+        if (this.images.background && this.images.background.complete) {
+            // Draw the SVG background scaled to fit the canvas
+            this.ctx.drawImage(this.images.background, 0, 0, this.canvas.width, this.canvas.height);
+        } else {
+            // Fallback: Dark forest background
+            const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+            gradient.addColorStop(0, '#0a0520');
+            gradient.addColorStop(0.5, '#1a0a2e');
+            gradient.addColorStop(1, '#0f051d');
+            this.ctx.fillStyle = gradient;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         }
     }
 

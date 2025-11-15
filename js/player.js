@@ -1,5 +1,5 @@
 class Player {
-    constructor(id, x, y, color, controls) {
+    constructor(id, x, y, color, controls, image) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -8,8 +8,9 @@ class Player {
         this.score = 0;
         this.color = color;
         this.controls = controls; // { up, down, left, right }
-        this.width = 40;
-        this.height = 40;
+        this.image = image;
+        this.width = 60;
+        this.height = 60;
 
         // Physics properties (Joust-like)
         this.acceleration = 0.4;
@@ -74,50 +75,32 @@ class Player {
         // Save context state
         ctx.save();
 
-        // For now, draw a simple witch representation
-        // This will be replaced with sprite images later
-
-        // Witch body (triangle for dress)
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.moveTo(this.x + this.width / 2, this.y + 5);
-        ctx.lineTo(this.x + 5, this.y + this.height - 5);
-        ctx.lineTo(this.x + this.width - 5, this.y + this.height - 5);
-        ctx.closePath();
-        ctx.fill();
-
-        // Witch hat
-        ctx.fillStyle = '#000';
-        ctx.beginPath();
-        ctx.moveTo(this.x + this.width / 2, this.y);
-        ctx.lineTo(this.x + 10, this.y + 15);
-        ctx.lineTo(this.x + this.width - 10, this.y + 15);
-        ctx.closePath();
-        ctx.fill();
-
-        // Broom stick
-        ctx.strokeStyle = '#8b4513';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(this.x + this.width / 2, this.y + this.height - 10);
-        ctx.lineTo(this.x + this.width + 5, this.y + this.height);
-        ctx.stroke();
-
-        // Broom bristles
-        ctx.strokeStyle = '#daa520';
-        ctx.lineWidth = 2;
-        for (let i = 0; i < 5; i++) {
+        if (this.image && this.image.complete) {
+            // Draw witch SVG image
+            // Flip image based on velocity direction for visual feedback
+            if (this.velocityX < 0) {
+                ctx.translate(this.x + this.width, this.y);
+                ctx.scale(-1, 1);
+                ctx.drawImage(this.image, 0, 0, this.width, this.height);
+            } else {
+                ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+            }
+        } else {
+            // Fallback: simple witch representation
+            ctx.fillStyle = this.color;
             ctx.beginPath();
-            ctx.moveTo(this.x + this.width + 5, this.y + this.height);
-            ctx.lineTo(this.x + this.width + 10 + i * 2, this.y + this.height + 5 - i);
-            ctx.stroke();
-        }
+            ctx.moveTo(this.x + this.width / 2, this.y + 5);
+            ctx.lineTo(this.x + 5, this.y + this.height - 5);
+            ctx.lineTo(this.x + this.width - 5, this.y + this.height - 5);
+            ctx.closePath();
+            ctx.fill();
 
-        // Player indicator (number)
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 16px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(this.id, this.x + this.width / 2, this.y + this.height / 2 + 5);
+            // Player indicator
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(this.id, this.x + this.width / 2, this.y + this.height / 2 + 5);
+        }
 
         // Restore context state
         ctx.restore();
