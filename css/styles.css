@@ -170,6 +170,13 @@ body {
     animation: blink 1.5s infinite;
 }
 
+.version {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 20px;
+    font-family: monospace;
+}
+
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
