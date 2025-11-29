@@ -137,6 +137,12 @@ class Game {
         // Initialize touch controls (will auto-detect and show if touch device)
         this.touchControls = new TouchControls(this);
 
+        // Hide player 2 on-screen controls initially (default is 1-player mode)
+        const player2TouchControls = document.querySelector('.player2-controls');
+        if (player2TouchControls) {
+            player2TouchControls.style.display = 'none';
+        }
+
         // Show start screen
         this.ui.showStartScreen();
 
@@ -174,15 +180,26 @@ class Game {
             this.isOnePlayerMode = !e.target.checked;
             modeText.textContent = this.isOnePlayerMode ? '1 Player' : '2 Players';
 
+            // Get player 2 touch controls
+            const player2TouchControls = document.querySelector('.player2-controls');
+
             // Update player 2 controls display
             if (this.isOnePlayerMode) {
                 botLabel.style.display = 'inline';
                 player2Keys.style.display = 'none';
                 difficultySelector.classList.remove('hidden');
+                // Hide player 2 on-screen controls
+                if (player2TouchControls) {
+                    player2TouchControls.style.display = 'none';
+                }
             } else {
                 botLabel.style.display = 'none';
                 player2Keys.style.display = 'block';
                 difficultySelector.classList.add('hidden');
+                // Show player 2 on-screen controls
+                if (player2TouchControls) {
+                    player2TouchControls.style.display = 'block';
+                }
             }
         });
 
