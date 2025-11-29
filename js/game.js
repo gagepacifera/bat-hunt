@@ -9,6 +9,7 @@ class Game {
         this.timer = 80;
         this.lastTime = 0;
         this.isOnePlayerMode = true; // Default to 1-player mode
+        this.botDifficulty = 'hard'; // Default to hard difficulty
 
         // Input
         this.keys = {};
@@ -131,7 +132,7 @@ class Game {
         this.setupInput();
 
         // Initialize bot AI for player 2
-        this.bot = new BotAI(this.players[1], this.bats);
+        this.bot = new BotAI(this.players[1], this.bats, this.pumpkins, this.botDifficulty);
 
         // Initialize touch controls (will auto-detect and show if touch device)
         this.touchControls = new TouchControls(this);
@@ -167,6 +168,7 @@ class Game {
         const modeText = document.querySelector('.mode-text');
         const botLabel = document.getElementById('bot-label');
         const player2Keys = document.getElementById('player2-keys');
+        const difficultySelector = document.getElementById('difficulty-selector');
 
         modeToggle.addEventListener('change', (e) => {
             this.isOnePlayerMode = !e.target.checked;
@@ -176,10 +178,32 @@ class Game {
             if (this.isOnePlayerMode) {
                 botLabel.style.display = 'inline';
                 player2Keys.style.display = 'none';
+                difficultySelector.classList.remove('hidden');
             } else {
                 botLabel.style.display = 'none';
                 player2Keys.style.display = 'block';
+                difficultySelector.classList.add('hidden');
             }
+        });
+
+        // Handle difficulty button clicks
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        difficultyButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Remove active class from all buttons
+                difficultyButtons.forEach(b => b.classList.remove('active'));
+
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                // Update difficulty
+                this.botDifficulty = btn.getAttribute('data-difficulty');
+
+                // Update bot difficulty if bot exists
+                if (this.bot) {
+                    this.bot.setDifficulty(this.botDifficulty);
+                }
+            });
         });
     }
 
