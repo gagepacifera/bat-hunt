@@ -81,6 +81,8 @@ class TouchControls {
         const endScreen = document.getElementById('end-screen');
 
         const handleStartTouch = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             if (this.game.gameState === 'start') {
                 this.game.startGame();
             } else if (this.game.gameState === 'ended') {
@@ -88,11 +90,11 @@ class TouchControls {
             }
         };
 
-        // Add touch listener to both screens
-        startScreen.addEventListener('touchend', handleStartTouch);
+        // Add touch listener to both screens with proper iOS support
+        startScreen.addEventListener('touchend', handleStartTouch, { passive: false });
         startScreen.addEventListener('click', handleStartTouch);
 
-        endScreen.addEventListener('touchend', handleStartTouch);
+        endScreen.addEventListener('touchend', handleStartTouch, { passive: false });
         endScreen.addEventListener('click', handleStartTouch);
     }
 
