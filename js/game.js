@@ -9,7 +9,7 @@ class Game {
         this.timer = 80;
         this.lastTime = 0;
         this.isOnePlayerMode = true; // Default to 1-player mode
-        this.botDifficulty = 'hard'; // Default to hard difficulty
+        this.botDifficulty = 'easy'; // Default to easy difficulty
 
         // Input
         this.keys = {};
