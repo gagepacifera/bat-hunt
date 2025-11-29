@@ -169,38 +169,46 @@ class Game {
             this.keys[e.key] = false;
         });
 
-        // Handle game mode toggle
-        const modeToggle = document.getElementById('mode-toggle');
-        const modeText = document.querySelector('.mode-text');
+        // Handle game mode button clicks
+        const modeButtons = document.querySelectorAll('.mode-btn');
         const botLabel = document.getElementById('bot-label');
         const player2Keys = document.getElementById('player2-keys');
         const difficultySelector = document.getElementById('difficulty-selector');
 
-        modeToggle.addEventListener('change', (e) => {
-            this.isOnePlayerMode = !e.target.checked;
-            modeText.textContent = this.isOnePlayerMode ? '1 Player' : '2 Players';
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Remove active class from all buttons
+                modeButtons.forEach(b => b.classList.remove('active'));
 
-            // Get player 2 touch controls
-            const player2TouchControls = document.querySelector('.player2-controls');
+                // Add active class to clicked button
+                btn.classList.add('active');
 
-            // Update player 2 controls display
-            if (this.isOnePlayerMode) {
-                botLabel.style.display = 'inline';
-                player2Keys.style.display = 'none';
-                difficultySelector.classList.remove('hidden');
-                // Hide player 2 on-screen controls
-                if (player2TouchControls) {
-                    player2TouchControls.style.display = 'none';
+                // Update mode
+                const mode = btn.getAttribute('data-mode');
+                this.isOnePlayerMode = (mode === '1');
+
+                // Get player 2 touch controls
+                const player2TouchControls = document.querySelector('.player2-controls');
+
+                // Update player 2 controls display
+                if (this.isOnePlayerMode) {
+                    botLabel.style.display = 'inline';
+                    player2Keys.style.display = 'none';
+                    difficultySelector.classList.remove('hidden');
+                    // Hide player 2 on-screen controls
+                    if (player2TouchControls) {
+                        player2TouchControls.style.display = 'none';
+                    }
+                } else {
+                    botLabel.style.display = 'none';
+                    player2Keys.style.display = 'block';
+                    difficultySelector.classList.add('hidden');
+                    // Show player 2 on-screen controls
+                    if (player2TouchControls) {
+                        player2TouchControls.style.display = 'block';
+                    }
                 }
-            } else {
-                botLabel.style.display = 'none';
-                player2Keys.style.display = 'block';
-                difficultySelector.classList.add('hidden');
-                // Show player 2 on-screen controls
-                if (player2TouchControls) {
-                    player2TouchControls.style.display = 'block';
-                }
-            }
+            });
         });
 
         // Handle difficulty button clicks

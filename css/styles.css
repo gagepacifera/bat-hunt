@@ -177,67 +177,47 @@ body {
     font-family: monospace;
 }
 
-/* Game Mode Toggle */
-.game-mode-toggle {
+/* Game Mode Selector */
+.game-mode-selector {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 15px;
+    gap: 10px;
     margin-top: 30px;
 }
 
-.mode-text {
-    font-size: 18px;
+.mode-selector-label {
+    font-size: 16px;
     color: #fff;
     font-weight: bold;
-    min-width: 80px;
 }
 
-.toggle-label {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 30px;
+.mode-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.mode-btn {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: rgba(138, 43, 226, 0.3);
+    border: 2px solid #8b2be2;
+    border-radius: 5px;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
-.mode-checkbox {
-    opacity: 0;
-    width: 0;
-    height: 0;
+.mode-btn:hover {
+    background-color: rgba(138, 43, 226, 0.5);
+    transform: scale(1.05);
 }
 
-.toggle-slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #8b2be2;
-    border-radius: 30px;
-    transition: 0.3s;
-    border: 2px solid #ff0088;
-}
-
-.toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 22px;
-    width: 22px;
-    left: 4px;
-    bottom: 2px;
-    background-color: white;
-    border-radius: 50%;
-    transition: 0.3s;
-}
-
-.mode-checkbox:checked + .toggle-slider {
+.mode-btn.active {
     background-color: #ff0088;
-    border-color: #8b2be2;
-}
-
-.mode-checkbox:checked + .toggle-slider:before {
-    transform: translateX(28px);
+    border-color: #ff0088;
+    box-shadow: 0 0 15px rgba(255, 0, 136, 0.6);
 }
 
 /* Difficulty Selector */
