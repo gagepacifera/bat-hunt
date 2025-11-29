@@ -176,7 +176,10 @@ class Game {
         const difficultySelector = document.getElementById('difficulty-selector');
 
         modeButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            const handleModeChange = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
                 // Remove active class from all buttons
                 modeButtons.forEach(b => b.classList.remove('active'));
 
@@ -208,13 +211,19 @@ class Game {
                         player2TouchControls.style.display = 'block';
                     }
                 }
-            });
+            };
+
+            btn.addEventListener('click', handleModeChange);
+            btn.addEventListener('touchend', handleModeChange, { passive: false });
         });
 
         // Handle difficulty button clicks
         const difficultyButtons = document.querySelectorAll('.difficulty-btn');
         difficultyButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            const handleDifficultyChange = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
                 // Remove active class from all buttons
                 difficultyButtons.forEach(b => b.classList.remove('active'));
 
@@ -228,7 +237,10 @@ class Game {
                 if (this.bot) {
                     this.bot.setDifficulty(this.botDifficulty);
                 }
-            });
+            };
+
+            btn.addEventListener('click', handleDifficultyChange);
+            btn.addEventListener('touchend', handleDifficultyChange, { passive: false });
         });
     }
 
