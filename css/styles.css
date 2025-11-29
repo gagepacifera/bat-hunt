@@ -117,8 +117,8 @@ body {
 
 .screen h1 {
     font-size: 72px;
-    color: #ff9500;
-    text-shadow: 0 0 20px rgba(255, 149, 0, 0.8);
+    color: #ff0088;
+    text-shadow: 0 0 20px rgba(255, 0, 162, 0.8);
     margin-bottom: 30px;
 }
 
