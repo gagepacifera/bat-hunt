@@ -196,16 +196,16 @@ class Game {
                 // Update player 2 controls display
                 if (this.isOnePlayerMode) {
                     botLabel.style.display = 'inline';
-                    player2Keys.style.display = 'none';
-                    difficultySelector.classList.remove('hidden');
+                    player2Keys.classList.add('faded');
+                    difficultySelector.classList.remove('faded');
                     // Hide player 2 on-screen controls
                     if (player2TouchControls) {
                         player2TouchControls.style.display = 'none';
                     }
                 } else {
                     botLabel.style.display = 'none';
-                    player2Keys.style.display = 'block';
-                    difficultySelector.classList.add('hidden');
+                    player2Keys.classList.remove('faded');
+                    difficultySelector.classList.add('faded');
                     // Show player 2 on-screen controls
                     if (player2TouchControls) {
                         player2TouchControls.style.display = 'block';

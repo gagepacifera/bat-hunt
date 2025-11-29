@@ -220,6 +220,12 @@ body {
     box-shadow: 0 0 15px rgba(255, 0, 136, 0.6);
 }
 
+/* Faded elements */
+.faded {
+    opacity: 0.1;
+    pointer-events: none;
+}
+
 /* Difficulty Selector */
 .difficulty-selector {
     display: flex;
@@ -227,10 +233,12 @@ body {
     align-items: center;
     gap: 10px;
     margin-top: 20px;
+    transition: opacity 0.3s;
 }
 
-.difficulty-selector.hidden {
-    display: none;
+.difficulty-selector.faded {
+    opacity: 0.1;
+    pointer-events: none;
 }
 
 .difficulty-label {
