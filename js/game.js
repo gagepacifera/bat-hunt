@@ -6,7 +6,7 @@ class Game {
 
         // Game state
         this.gameState = 'start'; // 'start', 'playing', 'ended'
-        this.timer = 60;
+        this.timer = 80;
         this.lastTime = 0;
 
         // Input
@@ -126,6 +126,9 @@ class Game {
         // Set up input listeners
         this.setupInput();
 
+        // Initialize touch controls (will auto-detect and show if touch device)
+        this.touchControls = new TouchControls(this);
+
         // Show start screen
         this.ui.showStartScreen();
 
@@ -155,7 +158,7 @@ class Game {
 
     startGame() {
         this.gameState = 'playing';
-        this.timer = 60;
+        this.timer = 80;
         this.ui.hideOverlay();
         this.lastTime = performance.now();
     }

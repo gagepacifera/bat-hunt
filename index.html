@@ -38,13 +38,56 @@
                         </div>
                     </div>
                 </div>
-                <p class="start-prompt">Press SPACE to Start</p>
+                <p class="start-prompt">Press SPACE or Tap to Start</p>
             </div>
             <div id="end-screen" class="screen">
                 <h1>Game Over!</h1>
                 <div id="winner-announcement"></div>
                 <div id="final-scores"></div>
-                <p class="start-prompt">Press SPACE to Play Again</p>
+                <p class="start-prompt">Press SPACE or Tap to Play Again</p>
+            </div>
+        </div>
+
+        <!-- Touch Controls -->
+        <div id="touch-controls" class="touch-controls hidden">
+            <!-- Player 1 Controls (Bottom Left) -->
+            <div class="player1-controls">
+                <div class="dpad">
+                    <button class="dpad-button dpad-up" data-key="w" data-player="1">
+                        <span>↑</span>
+                    </button>
+                    <button class="dpad-button dpad-left" data-key="a" data-player="1">
+                        <span>←</span>
+                    </button>
+                    <button class="dpad-button dpad-center"></button>
+                    <button class="dpad-button dpad-right" data-key="d" data-player="1">
+                        <span>→</span>
+                    </button>
+                    <button class="dpad-button dpad-down" data-key="s" data-player="1">
+                        <span>↓</span>
+                    </button>
+                </div>
+                <div class="player-label-touch">P1</div>
+            </div>
+
+            <!-- Player 2 Controls (Bottom Right) -->
+            <div class="player2-controls">
+                <div class="dpad">
+                    <button class="dpad-button dpad-up" data-key="ArrowUp" data-player="2">
+                        <span>↑</span>
+                    </button>
+                    <button class="dpad-button dpad-left" data-key="ArrowLeft" data-player="2">
+                        <span>←</span>
+                    </button>
+                    <button class="dpad-button dpad-center"></button>
+                    <button class="dpad-button dpad-right" data-key="ArrowRight" data-player="2">
+                        <span>→</span>
+                    </button>
+                    <button class="dpad-button dpad-down" data-key="ArrowDown" data-player="2">
+                        <span>↓</span>
+                    </button>
+                </div>
+                <div class="player-label-touch">P2</div>
             </div>
         </div>
     </div>
@@ -56,6 +99,7 @@
     <script src="js/pumpkin.js"></script>
     <script src="js/collision.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/touchControls.js"></script>
     <script src="js/game.js"></script>
 </body>
 </html>
