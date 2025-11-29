@@ -33,7 +33,7 @@ class UI {
         this.endScreen.classList.remove('active');
     }
 
-    showEndScreen(player1Score, player2Score) {
+    showEndScreen(player1Score, player2Score, isOnePlayerMode = false) {
         this.gameOverlay.classList.remove('hidden');
         this.startScreen.classList.remove('active');
         this.endScreen.classList.add('active');
@@ -43,15 +43,19 @@ class UI {
         if (player1Score > player2Score) {
             winnerText = 'Player 1 Wins!';
         } else if (player2Score > player1Score) {
-            winnerText = 'Player 2 Wins!';
+            // Check if one-player mode to show "The Bot Wins!"
+            winnerText = isOnePlayerMode ? 'The Bot Wins!' : 'Player 2 Wins!';
         } else {
             winnerText = "It's a Tie!";
         }
 
         this.winnerAnnouncement.textContent = winnerText;
+
+        // Update final scores display
+        const player2Label = isOnePlayerMode ? 'The Bot' : 'Player 2';
         this.finalScores.innerHTML = `
             <div>Player 1: ${player1Score} bats</div>
-            <div>Player 2: ${player2Score} bats</div>
+            <div>${player2Label}: ${player2Score} bats</div>
         `;
     }
 

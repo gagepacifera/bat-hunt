@@ -444,7 +444,7 @@ class Game {
 
     endGame() {
         this.gameState = 'ended';
-        this.ui.showEndScreen(this.players[0].score, this.players[1].score);
+        this.ui.showEndScreen(this.players[0].score, this.players[1].score, this.isOnePlayerMode);
     }
 }
 
