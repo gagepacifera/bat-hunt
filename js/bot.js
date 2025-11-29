@@ -22,9 +22,13 @@ class BotAI {
             }
         }
 
-        // For easy mode, 50% of the time pursue a random pumpkin instead of a bat
+        // Determine target based on difficulty
         let target;
         if (this.difficulty === 'easy' && Math.random() < 0.5) {
+            // Easy mode: 50% of the time pursue a random pumpkin instead of a bat
+            target = this.findRandomPumpkin();
+        } else if (this.difficulty === 'medium' && Math.random() < 0.25) {
+            // Medium mode: 25% of the time pursue a random pumpkin instead of a bat
             target = this.findRandomPumpkin();
         } else {
             target = this.findClosestBat();
