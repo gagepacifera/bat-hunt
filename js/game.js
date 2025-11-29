@@ -154,6 +154,11 @@ class Game {
         window.addEventListener('keydown', (e) => {
             this.keys[e.key] = true;
 
+            // Prevent default for all keys during gameplay to avoid iOS keyboard/search
+            if (this.gameState === 'playing') {
+                e.preventDefault();
+            }
+
             // Handle space bar for game state transitions
             if (e.key === ' ') {
                 e.preventDefault();
@@ -167,6 +172,11 @@ class Game {
 
         window.addEventListener('keyup', (e) => {
             this.keys[e.key] = false;
+
+            // Prevent default for all keys during gameplay
+            if (this.gameState === 'playing') {
+                e.preventDefault();
+            }
         });
 
         // Handle game mode button clicks
@@ -249,6 +259,14 @@ class Game {
         this.timer = 80;
         this.ui.hideOverlay();
         this.lastTime = performance.now();
+
+        // Blur any focused elements to prevent keyboard from appearing on iOS
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+
+        // Remove focus from body to prevent iOS keyboard
+        document.body.blur();
     }
 
     resetGame() {
