@@ -8,6 +8,7 @@ class Game {
         this.gameState = 'start'; // 'start', 'playing', 'ended'
         this.timer = 80;
         this.lastTime = 0;
+        this.isOnePlayerMode = true; // Default to 1-player mode
 
         // Input
         this.keys = {};
@@ -23,6 +24,9 @@ class Game {
 
         // Collision tracking
         this.recentCollisions = {};
+
+        // Bot AI
+        this.bot = null;
 
         // Image assets
         this.images = {
@@ -126,6 +130,9 @@ class Game {
         // Set up input listeners
         this.setupInput();
 
+        // Initialize bot AI for player 2
+        this.bot = new BotAI(this.players[1], this.bats);
+
         // Initialize touch controls (will auto-detect and show if touch device)
         this.touchControls = new TouchControls(this);
 
@@ -153,6 +160,26 @@ class Game {
 
         window.addEventListener('keyup', (e) => {
             this.keys[e.key] = false;
+        });
+
+        // Handle game mode toggle
+        const modeToggle = document.getElementById('mode-toggle');
+        const modeText = document.querySelector('.mode-text');
+        const botLabel = document.getElementById('bot-label');
+        const player2Keys = document.getElementById('player2-keys');
+
+        modeToggle.addEventListener('change', (e) => {
+            this.isOnePlayerMode = !e.target.checked;
+            modeText.textContent = this.isOnePlayerMode ? '1 Player' : '2 Players';
+
+            // Update player 2 controls display
+            if (this.isOnePlayerMode) {
+                botLabel.style.display = 'inline';
+                player2Keys.style.display = 'none';
+            } else {
+                botLabel.style.display = 'none';
+                player2Keys.style.display = 'block';
+            }
         });
     }
 
@@ -221,6 +248,11 @@ class Game {
     }
 
     update(deltaTime) {
+        // Update bot AI if in one-player mode
+        if (this.isOnePlayerMode && this.bot) {
+            this.bot.update(this.keys);
+        }
+
         // Update players
         this.players.forEach(player => {
             player.update(deltaTime, this.keys, this.canvas.width, this.canvas.height);

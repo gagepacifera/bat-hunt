@@ -177,6 +177,69 @@ body {
     font-family: monospace;
 }
 
+/* Game Mode Toggle */
+.game-mode-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.mode-text {
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.toggle-label {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.mode-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #8b2be2;
+    border-radius: 30px;
+    transition: 0.3s;
+    border: 2px solid #ff0088;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.mode-checkbox:checked + .toggle-slider {
+    background-color: #ff0088;
+    border-color: #8b2be2;
+}
+
+.mode-checkbox:checked + .toggle-slider:before {
+    transform: translateX(28px);
+}
+
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
